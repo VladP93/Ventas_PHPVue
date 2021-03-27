@@ -1,5 +1,5 @@
-### Front End del proyecto
+# Front End del proyecto
 
 ## In progress
 
-# JavaScript - VueJS
+### JavaScript - VueJS
