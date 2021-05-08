@@ -30,6 +30,21 @@
 
 - ### FrontEnd:
 
-  - HTML
-  - JavaScript
-  - VueJS (v2)
+  - [HTML](https://developer.mozilla.org/es/docs/Web/HTML)
+  - [JavaScript](https://developer.mozilla.org/es/docs/Web/JavaScript)
+  - [VueJS (v2)](https://vuejs.org/)
+
+---
+
+## **Dependencias**
+
+- ### BackEnd:
+
+  - [composer.json](https://github.com/VladP93/Ventas_PHPVue/blob/main/BackEnd/composer.json)
+
+- ### FrontEnd:
+  - [package.json](https://github.com/VladP93/Ventas_PHPVue/blob/main/FrontEnd/package.json)
+
+---
+
+Los directorios contienen documentación oficial en el README.md para poder ejecutar los proyectos. :sunglasses:
