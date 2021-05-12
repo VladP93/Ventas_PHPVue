@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Categoria;
 
-class Categoria extends Controller
+class CategoriaController extends Controller
 {
-    {
+    public function index(){
         $categoria = Categoria::all();
-        return $categoria
+        return $categoria;
     }
 }

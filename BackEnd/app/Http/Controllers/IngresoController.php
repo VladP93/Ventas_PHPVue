@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Ingreso;
 
-class Ingreso extends Controller
+class IngresoController extends Controller
 {
-    public function index()
-    {
+    public function index(){
         $ingreso = Ingreso::all();
-        return $ingreso
+        return $ingreso;
+    }
 }
