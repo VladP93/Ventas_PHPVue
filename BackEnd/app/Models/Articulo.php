@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
 
 class Articulo extends Model
 {
-    use HasFactory;
+    protected $connection = 'mongodb';
+    protected $collection = 'articulos';
     protected $fillable =['_id', 'Categoria', 'Codigo', 'Nombre', 
     'Precio_venta', 'Stock', 'Descripcion', 'Condicion'];
 }

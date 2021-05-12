@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
 
 class Proveedor extends Model
 {
-    use HasFactory;
+    protected $connection = 'mongodb';
+    protected $collection = 'proveedors';
     protected $fillable =['_id', 'Nombre', 'Tipo_documento', 'Num_documento',
     'Direccion', 'Telefono','Email'];
 }

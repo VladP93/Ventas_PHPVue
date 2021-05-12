@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
 
 class Detalle_venta extends Model
 {
-    use HasFactory;
+    protected $connection = 'mongodb';
+    protected $collection = 'detalle_ventas';
     protected $fillable =['_id', 'Articulo', 'Cantidad','Precio', 'Descuento'];
 }

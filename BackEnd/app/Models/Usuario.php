@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
 
 class Usuario extends Model
 {
-    use HasFactory;
+    protected $connection = 'mongodb';
+    protected $collection = 'usuarios';
     protected $fillable = ['_id','Rol', 'Nombre', 'Tipo_documento', 
     'Num_documento', 'Direccion', 'Telefono', 'Email', 'Password_hash','Password_salt', 'Condicion'];
 }
