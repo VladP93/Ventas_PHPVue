@@ -6,5 +6,6 @@ use Illuminate\Http\Request;
 
 class Rol extends Controller
 {
-    //
+    $rol = Rol::all();
+return $rol
 }
