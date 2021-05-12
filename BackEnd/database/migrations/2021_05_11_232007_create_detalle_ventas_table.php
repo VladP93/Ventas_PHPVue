@@ -15,6 +15,11 @@ class CreateDetalleVentasTable extends Migration
     {
         Schema::create('detalle_ventas', function (Blueprint $table) {
             $table->id();
+            $table->string('_id');
+            $table->string('Articulo');
+            $table->double('Cantidad');
+            $table->double('Precio');
+            $table->double('Descuento');
             $table->timestamps();
         });
     }

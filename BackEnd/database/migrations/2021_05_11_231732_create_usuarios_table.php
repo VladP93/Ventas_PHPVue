@@ -15,6 +15,17 @@ class CreateUsuariosTable extends Migration
     {
         Schema::create('usuarios', function (Blueprint $table) {
             $table->id();
+            $table->string('_id');
+            $table->string('Rol');
+            $table->string('Nombre');
+            $table->string('Tipo_documento');
+            $table->string('Num_documento');
+            $table->string('Direccion');
+            $table->string('Telefono');
+            $table->string('Email');
+            $table->string('Password_hash');
+            $table->string('Password_salt');
+            $table->string('Condicion');
             $table->timestamps();
         });
     }
