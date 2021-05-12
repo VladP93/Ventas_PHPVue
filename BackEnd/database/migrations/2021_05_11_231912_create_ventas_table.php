@@ -20,7 +20,7 @@ class CreateVentasTable extends Migration
             $table->string('Usuario');
             $table->string('Tipo_comprobante');
             $table->string('Num_comprobante');
-            $table->datetime('Fecha_hora')
+            $table->datetime('Fecha_hora');
             $table->double('Impuesto');
             $table->double('Total');
             $table->string('Estado');
