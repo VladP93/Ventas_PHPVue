@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
 
-class Rol extends Model
+class Rol extends Eloquent
 {
-    use HasFactory;
+    protected $connection = 'mongodb';
+    protected $collection = 'rols';
     protected $fillable =['_id', 'Nombre', 'Descripcion', 'Condicion'];
 }
