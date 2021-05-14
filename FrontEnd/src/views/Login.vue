@@ -38,6 +38,7 @@
 
 <script>
 import axios from "axios";
+import ConsultaIngresoVue from "./ConsultaIngreso.vue";
 export default {
   data() {
     return {
@@ -58,10 +59,12 @@ export default {
           return response.data;
         })
         .then((data) => {
-          this.$store.dispatch("guardarToken", data.token);
+          this.$store.dispatch("guardarRol", data[0].rol);
+          this.$store.dispatch("guardarUsuario", data[0].nombre);
           this.$router.push({ name: "home" });
         })
         .catch((err) => {
+          console.log(err);
           if (err.response.status == 400) {
             this.error = "*El email no es válido.";
           } else if (err.response.status == 404) {

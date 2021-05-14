@@ -3,7 +3,9 @@
     <v-layout wrap>
       <v-flex xs12 sm12 md12 lg12 xl12>
         <div class="home">
-          <canvas id="myChart"></canvas>
+          <!-- <canvas id="myChart"></canvas> -->
+          <h3>Hola, {{ store.state.usuario }}.</h3>
+          <h5>({{ store.state.rol }})</h5>
         </div>
       </v-flex>
     </v-layout>
@@ -13,12 +15,14 @@
 <script>
 import axios from "axios";
 import Chart from "chart.js";
+import store from "../store/index";
 export default {
   data() {
     return {
       mesesValores: null,
       nombreMeses: [],
       totalMeses: [],
+      store: store,
     };
   },
   methods: {
@@ -127,18 +131,18 @@ export default {
       });
     },
     getMasVendidos() {
-      let me = this;
-      let header = { Authorization: "Bearer " + this.$store.state.token };
-      let configuracion = { headers: header };
-      axios
-        .get(`api/Ventas/VentasAnual`, configuracion)
-        .then(function(response) {
-          me.mesesValores = response.data;
-          me.loadMasVendidos();
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
+      // let me = this;
+      // let header = { Authorization: "Bearer " + this.$store.state.token };
+      // let configuracion = { headers: header };
+      // axios
+      //   .get(`api/Ventas/VentasAnual`, configuracion)
+      //   .then(function(response) {
+      //     me.mesesValores = response.data;
+      //     me.loadMasVendidos();
+      //   })
+      //   .catch(function(error) {
+      //     console.log(error);
+      //   });
     },
   },
   mounted() {

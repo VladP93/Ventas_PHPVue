@@ -33,7 +33,7 @@
                     ></v-text-field>
                   </v-flex>
                   <v-flex xs12 sm6 md6>
-                    <v-select v-model="idrol" :items="roles" label="Rol">
+                    <v-select v-model="rol" :items="roles" label="Rol">
                     </v-select>
                   </v-flex>
                   <v-flex xs12 sm6 md6>
@@ -189,7 +189,7 @@ export default {
       search: "",
       editedIndex: -1,
       id: "",
-      idrol: "",
+      rol: "",
       roles: [],
       tipo_documento: "",
       documentos: ["DUI", "NIT", "PASAPORTE"],
@@ -231,7 +231,7 @@ export default {
       let header = { Authorization: "Bearer " + this.$store.state.token };
       let configuracion = { headers: header };
       axios
-        .get(`api/Usuarios/Listar`, configuracion)
+        .get(`api/Usuarios`, configuracion)
         .then(function(response) {
           me.usuarios = response.data;
         })
@@ -245,11 +245,11 @@ export default {
       let configuracion = { headers: header };
       var rolesArray = [];
       axios
-        .get(`api/Roles/Select`, configuracion)
+        .get(`api/Roles`, configuracion)
         .then(function(response) {
           rolesArray = response.data;
           rolesArray.map(function(rol) {
-            me.roles.push({ text: rol.nombre, value: rol.idrol });
+            me.roles.push({ text: rol.nombre, value: rol.rol });
           });
         })
         .catch(function(error) {
@@ -258,8 +258,8 @@ export default {
     },
 
     editItem(item) {
-      this.id = item.idusuario;
-      this.idrol = item.idrol;
+      this.id = item._id;
+      this.rol = item.rol;
       this.nombre = item.nombre;
       this.tipo_documento = item.tipo_documento;
       this.num_documento = item.num_documento;
@@ -275,7 +275,7 @@ export default {
     activo(accion, item) {
       this.adModal = 1;
       this.adNombre = item.nombre;
-      this.adId = item.idusuario;
+      this.adId = item._id;
 
       if (accion === 1) {
         this.adAccion = 1;
@@ -331,7 +331,7 @@ export default {
 
     limpiar() {
       this.id = "";
-      this.idrol = "";
+      this.rol = "";
       this.nombre = "";
       this.tipo_documento = "";
       this.num_documento = "";
@@ -360,10 +360,10 @@ export default {
 
         axios
           .put(
-            "api/Usuarios/Actualizar",
+            "api/Usuarios/" + me.id,
             {
-              idusuario: me.id,
-              idrol: me.idrol,
+              _id: me.id,
+              rol: me.rol,
               nombre: me.nombre,
               tipo_documento: me.tipo_documento,
               num_documento: me.num_documento,
@@ -388,9 +388,9 @@ export default {
         let me = this;
         axios
           .post(
-            "api/Usuarios/Crear",
+            "api/Usuarios",
             {
-              idrol: me.idrol,
+              rol: me.rol,
               nombre: me.nombre,
               tipo_documento: me.tipo_documento,
               num_documento: me.num_documento,
@@ -408,7 +408,7 @@ export default {
           })
           .catch(function(err) {
             console.log({
-              idrol: me.idrol,
+              rol: me.rol,
               nombre: me.nombre,
               tipo_documento: me.tipo_documento,
               num_documento: me.num_documento,
@@ -432,7 +432,7 @@ export default {
           "*La longitud del nombre debe de estar entre 3 a 100 caracteres."
         );
       }
-      if (!this.idrol) {
+      if (!this.rol) {
         this.validaMensaje.push("*Seleccione un rol.");
       }
       if (!this.tipo_documento) {

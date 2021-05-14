@@ -143,22 +143,16 @@ router.beforeEach((to, from, next) => {
     next();
   } else if (
     store.state.usuario != null &&
-    store.state.usuario.rol == "Administrador"
+    store.state.rol == "Administrador"
   ) {
     if (to.matched.some((record) => record.meta.administrador)) {
       next();
     }
-  } else if (
-    store.state.usuario != null &&
-    store.state.usuario.rol == "Bodeguero"
-  ) {
+  } else if (store.state.usuario != null && store.state.rol == "Bodeguero") {
     if (to.matched.some((record) => record.meta.bodeguero)) {
       next();
     }
-  } else if (
-    store.state.usuario != null &&
-    store.state.usuario.rol == "Vendedor"
-  ) {
+  } else if (store.state.usuario != null && store.state.rol == "Vendedor") {
     if (to.matched.some((record) => record.meta.vendedor)) {
       next();
     }

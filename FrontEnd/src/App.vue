@@ -184,8 +184,11 @@
       fixed
     >
       <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
-        <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-        <span class="hidden-sm-and-down">Sistema</span>
+        <v-app-bar-nav-icon
+          @click.stop="drawer = !drawer"
+          v-if="logueado"
+        ></v-app-bar-nav-icon>
+        <span class="hidden-sm-and-down">Sistema de ventas</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn @click="salir" v-if="logueado" icon style="margin-right:20px">
@@ -229,30 +232,22 @@ export default {
   },
   computed: {
     logueado() {
-      // return this.$store.state.usuario;
-      return true;
+      return this.$store.state.usuario;
     },
     esAdmin() {
-      // return (
-      //   this.$store.state.usuario &&
-      //   this.$store.state.usuario.rol == "Administrador"
-      // );
-      return true;
+      return (
+        this.$store.state.usuario && this.$store.state.rol == "Administrador"
+      );
     },
     esBodeguero() {
-      return (
-        this.$store.state.usuario &&
-        this.$store.state.usuario.rol == "Bodeguero"
-      );
+      return this.$store.state.usuario && this.$store.state.rol == "Bodeguero";
     },
     esVendedor() {
-      return (
-        this.$store.state.usuario && this.$store.state.usuario.rol == "Vendedor"
-      );
+      return this.$store.state.usuario && this.$store.state.rol == "Vendedor";
     },
   },
   created() {
-    // this.$store.dispatch("autoLogin");
+    this.$store.dispatch("autoLogin");
   },
   methods: {
     salir() {
