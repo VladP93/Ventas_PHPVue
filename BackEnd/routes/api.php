@@ -21,7 +21,9 @@ use Illuminate\Support\Facades\Route;
 // http://host:puerto/api/[Controller]
 
 Route::resource('/Roles','App\Http\Controllers\RolController');
-Route::resource('/Artiulos','App\Http\Controllers\ArticuloController');
+Route::resource('/Articulos','App\Http\Controllers\ArticuloController');
+Route::put('/Articulos/Desactivar/{_id}','App\Http\Controllers\ArticuloController@desactivar');
+Route::put('/Articulos/Activar/{_id}','App\Http\Controllers\ArticuloController@activar');
 Route::resource('/Categorias','App\Http\Controllers\CategoriaController');
 Route::put('/Categorias/Desactivar/{_id}','App\Http\Controllers\CategoriaController@desactivar');
 Route::put('/Categorias/Activar/{_id}','App\Http\Controllers\CategoriaController@activar');

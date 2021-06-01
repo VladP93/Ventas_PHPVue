@@ -250,7 +250,7 @@ export default {
       let header = { Authorization: "Bearer " + this.$store.state.token };
       let configuracion = { headers: header };
       axios
-        .get(`api/Articulos/Listar`, configuracion)
+        .get(`api/Articulos`, configuracion)
         .then(function(response) {
           me.articulos = response.data;
         })
@@ -264,7 +264,7 @@ export default {
       let configuracion = { headers: header };
       var categoriasArray = [];
       axios
-        .get(`api/Categorias/Select`, configuracion)
+        .get(`api/Categorias`, configuracion)
         .then(function(response) {
           categoriasArray = response.data;
           categoriasArray.map(function(cat) {
@@ -277,8 +277,8 @@ export default {
     },
 
     editItem(item) {
-      this.idarticulo = item.idarticulo;
-      this.idcategoria = item.idcategoria;
+      this.idarticulo = item._id;
+      this.idcategoria = item.categoria;
       this.codigo = item.codigo;
       this.nombre = item.nombre;
       this.stock = item.stock;
@@ -291,7 +291,7 @@ export default {
     activo(accion, item) {
       this.adModal = 1;
       this.adNombre = item.nombre;
-      this.adId = item.idarticulo;
+      this.adId = item._id;
 
       if (accion === 1) {
         this.adAccion = 1;
@@ -367,10 +367,10 @@ export default {
         let me = this;
         axios
           .put(
-            "api/Articulos/Actualizar",
+            "api/Articulos/" + me.idarticulo,
             {
               idarticulo: me.idarticulo,
-              idcategoria: me.idcategoria,
+              categoria: me.idcategoria,
               codigo: me.codigo,
               nombre: me.nombre,
               stock: me.stock,
@@ -390,12 +390,11 @@ export default {
       } else {
         //Guardar
         let me = this;
-        console.log("Haciendo peticion");
         axios
           .post(
-            "api/Articulos/Crear",
+            "api/Articulos",
             {
-              idcategoria: me.idcategoria,
+              categoria: me.idcategoria,
               codigo: me.codigo,
               nombre: me.nombre,
               stock: me.stock,
@@ -405,29 +404,11 @@ export default {
             configuracion
           )
           .then(function(res) {
-            console.log({
-              idcategoria: me.idcategoria,
-              codigo: me.codigo,
-              nombre: me.nombre,
-              stock: me.stock,
-              precio_venta: me.precio_venta,
-              descripcion: me.descripcion,
-            });
-            console.log("ok");
             me.close();
             me.listar();
             me.limpiar();
           })
           .catch(function(err) {
-            console.log({
-              idcategoria: me.idcategoria,
-              codigo: me.codigo,
-              nombre: me.nombre,
-              stock: me.stock,
-              precio_venta: me.precio_venta,
-              descripcion: me.descripcion,
-            });
-            console.log("no ok");
             console.log(err.message);
           });
       }

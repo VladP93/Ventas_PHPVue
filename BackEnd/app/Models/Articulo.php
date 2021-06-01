@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
 
-class Articulo extends Model
+class Articulo extends Eloquent
 {
     protected $connection = 'mongodb';
     protected $collection = 'articulos';
