@@ -31,7 +31,7 @@ Route::resource('/Clientes','App\Http\Controllers\ClienteController');
 Route::resource('/Detalle_ingresos','App\Http\Controllers\Detalle_ingresoController');
 Route::resource('/Detalle_ventas','App\Http\Controllers\VentaController');
 Route::resource('/Ingresos','App\Http\Controllers\IngresoController');
-Route::resource('/Proveedors','App\Http\Controllers\ProveedorController');
+Route::resource('/Proveedores','App\Http\Controllers\ProveedorController');
 Route::resource('/Usuarios','App\Http\Controllers\UsuarioController');
 Route::post('/Usuarios/Login','App\Http\Controllers\UsuarioController@login');
 Route::put('/Usuarios/Desactivar/{_id}','App\Http\Controllers\UsuarioController@desactivar');
