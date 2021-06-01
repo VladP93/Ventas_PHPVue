@@ -181,7 +181,7 @@ export default {
       let header = { Authorization: "Bearer " + this.$store.state.token };
       let configuracion = { headers: header };
       axios
-        .get(`api/categorias/Listar`, configuracion)
+        .get(`api/Categorias`, configuracion)
         .then(function(response) {
           me.categorias = response.data;
         })
@@ -191,7 +191,7 @@ export default {
     },
 
     editItem(item) {
-      this.idcategoria = item.idcategoria;
+      this.idcategoria = item._id;
       this.nombre = item.nombre;
       this.descripcion = item.descripcion;
       this.editedIndex = 1;
@@ -201,7 +201,7 @@ export default {
     activo(accion, item) {
       this.adModal = 1;
       this.adNombre = item.nombre;
-      this.adId = item.idcategoria;
+      this.adId = item._id;
 
       if (accion === 1) {
         this.adAccion = 1;
@@ -273,7 +273,7 @@ export default {
         let me = this;
         axios
           .put(
-            "api/Categorias/Actualizar",
+            "api/Categorias/" + me.idcategoria,
             {
               idcategoria: me.idcategoria,
               nombre: me.nombre,
@@ -294,7 +294,7 @@ export default {
         let me = this;
         axios
           .post(
-            "api/categorias/Crear",
+            "api/Categorias",
             {
               nombre: me.nombre,
               descripcion: me.descripcion,
