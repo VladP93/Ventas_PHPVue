@@ -12,6 +12,22 @@ class ArticuloController extends Controller
         return $articulo;
     }
 
+    public function buscarCodigo($codigo){
+        $articulo = Articulo::where('codigo',$codigo)->first();
+        if($articulo == null){
+            abort(404);
+        }
+        return $articulo;
+    }
+
+    public function buscarTexto($texto){
+        $articulo = Articulo::where('nombre','LIKE','%'.$texto.'%')->get();
+        if($articulo == null){
+            abort(404);
+        }
+        return $articulo;
+    }
+
     public function store(Request $request){
         //protected $fillable =['_id', 'Categoria', 'Codigo', 'Nombre',
         //'Precio_venta', 'Stock', 'Descripcion', 'Condicion'];

@@ -416,7 +416,7 @@ export default {
       let header = { Authorization: "Bearer " + this.$store.state.token };
       let configuracion = { headers: header };
       axios
-        .get(`api/Articulos/BuscarCodigoIngreso/${this.codigo}`, configuracion)
+        .get(`api/Articulos/Codigo/${this.codigo}`, configuracion)
         .then(function(response) {
           me.agregarDetalle(response.data);
         })
@@ -430,7 +430,7 @@ export default {
       let header = { Authorization: "Bearer " + this.$store.state.token };
       let configuracion = { headers: header };
       axios
-        .get(`api/Articulos/ListarIngreso/${me.texto}`, configuracion)
+        .get(`api/Articulos/Buscar/${me.texto}`, configuracion)
         .then(function(response) {
           me.articulos = response.data;
         })
@@ -479,7 +479,7 @@ export default {
       let configuracion = { headers: header };
       let url = ``;
       if (!me.fechaInicio || !me.fechaFin) {
-        url = `api/Ingresos/Listar`;
+        url = `api/Ingresos`;
       } else {
         url = `api/Ingresos/ConsultaFechas/${me.fechaInicio}/${me.fechaFin}`;
       }
@@ -497,7 +497,7 @@ export default {
       let header = { Authorization: "Bearer " + this.$store.state.token };
       let configuracion = { headers: header };
       axios
-        .get(`api/Ingresos/ListarDetalles/${id}`, configuracion)
+        .get(`api/Ingresos/Detalles/${id}`, configuracion)
         .then(function(response) {
           me.detalles = response.data;
         })
@@ -512,7 +512,7 @@ export default {
       this.num_comprobante = item.num_comprobante;
       this.idproveedor = item.idproveedor;
       this.impuesto = item.impuesto;
-      this.listarDetalles(item.idingreso);
+      this.listarDetalles(item._id);
       this.verNuevo = true;
       this.verDet = false;
     },
@@ -522,7 +522,7 @@ export default {
       let configuracion = { headers: header };
       var proveedoresArray = [];
       axios
-        .get(`api/Personas/SelectProveedores`, configuracion)
+        .get(`api/Proveedores`, configuracion)
         .then(function(response) {
           proveedoresArray = response.data;
           proveedoresArray.map(function(pro) {
@@ -599,7 +599,7 @@ export default {
       let me = this;
       axios
         .post(
-          `api/Ingresos/Crear`,
+          `api/Ingresos`,
           {
             idproveedor: me.idproveedor,
             idusuario: parseInt(me.$store.state.usuario.idusuario),

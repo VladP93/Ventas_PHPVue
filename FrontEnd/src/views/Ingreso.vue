@@ -164,13 +164,6 @@
           </v-flex>
           <v-flex xs12 sm4 md4 lg4 xl4>
             <v-text-field
-              v-model="serie_comprobante"
-              label="Serie de comprobante"
-              :disabled="!verDet"
-            ></v-text-field>
-          </v-flex>
-          <v-flex xs12 sm4 md4 lg4 xl4>
-            <v-text-field
               v-model="num_comprobante"
               label="Número de comprobante"
               :disabled="!verDet"
@@ -329,7 +322,6 @@ export default {
         { text: "Usuario", value: "usuario" },
         { text: "Proveedor", value: "proveedor" },
         { text: "Tipo de comprobante", value: "tipo_comprobante" },
-        { text: "Serie de comprobante", value: "serie_comprobante" },
         {
           text: "Número de comprobante",
           value: "num_comprobante",
@@ -347,7 +339,6 @@ export default {
       proveedores: [],
       tipo_comprobante: "",
       comprobantes: ["FACTURA", "TICKET", "BOLETA"],
-      serie_comprobante: "",
       num_comprobante: "",
       impuesto: 13,
       codigo: "",
@@ -419,7 +410,7 @@ export default {
       let header = { Authorization: "Bearer " + this.$store.state.token };
       let configuracion = { headers: header };
       axios
-        .get(`api/Articulos/BuscarCodigoIngreso/${this.codigo}`, configuracion)
+        .get(`api/Articulos/Codigo/${this.codigo}`, configuracion)
         .then(function(response) {
           me.agregarDetalle(response.data);
         })
@@ -433,7 +424,7 @@ export default {
       let header = { Authorization: "Bearer " + this.$store.state.token };
       let configuracion = { headers: header };
       axios
-        .get(`api/Articulos/ListarIngreso/${me.texto}`, configuracion)
+        .get(`api/Articulos/Buscar/${me.texto}`, configuracion)
         .then(function(response) {
           me.articulos = response.data;
         })
@@ -449,11 +440,11 @@ export default {
     },
     agregarDetalle(data = []) {
       this.errorArticulo = null;
-      if (this.encuentra(data["idarticulo"])) {
+      if (this.encuentra(data["codigo"])) {
         this.errorArticulo = "*El artículo ya ha sido agregado";
       } else {
         this.detalles.push({
-          idarticulo: data["idarticulo"],
+          codigo: data["codigo"],
           articulo: data["nombre"],
           cantidad: 1,
           precio: 1,
@@ -464,7 +455,7 @@ export default {
     encuentra(id) {
       var sw = 0;
       for (var i = 0; i < this.detalles.length; i++) {
-        if (this.detalles[i].idarticulo == id) {
+        if (this.detalles[i].codigo == id) {
           sw = 1;
         }
       }
@@ -482,9 +473,9 @@ export default {
       let configuracion = { headers: header };
       let url = ``;
       if (!me.search) {
-        url = `api/Ingresos/Listar`;
+        url = `api/Ingresos`;
       } else {
-        url = `api/Ingresos/ListarFiltro/${me.search}`;
+        url = `api/Ingresos/Filtrar/${me.search}`;
       }
       axios
         .get(url, configuracion)
@@ -500,7 +491,7 @@ export default {
       let header = { Authorization: "Bearer " + this.$store.state.token };
       let configuracion = { headers: header };
       axios
-        .get(`api/Ingresos/ListarDetalles/${id}`, configuracion)
+        .get(`api/Ingresos/Detalles/${id}`, configuracion)
         .then(function(response) {
           me.detalles = response.data;
         })
@@ -511,11 +502,10 @@ export default {
     verDetalles(item) {
       this.limpiar();
       this.tipo_comprobante = item.tipo_comprobante;
-      this.serie_comprobante = item.serie_comprobante;
       this.num_comprobante = item.num_comprobante;
       this.idproveedor = item.idproveedor;
       this.impuesto = item.impuesto;
-      this.listarDetalles(item.idingreso);
+      this.listarDetalles(item._id);
       this.verNuevo = true;
       this.verDet = false;
     },
@@ -525,7 +515,7 @@ export default {
       let configuracion = { headers: header };
       var proveedoresArray = [];
       axios
-        .get(`api/Personas/SelectProveedores`, configuracion)
+        .get(`api/Proveedores`, configuracion)
         .then(function(response) {
           proveedoresArray = response.data;
           proveedoresArray.map(function(pro) {
@@ -540,7 +530,7 @@ export default {
     activo(accion, item) {
       this.adModal = 1;
       this.adNombre = item.num_comprobante;
-      this.adId = item.idingreso;
+      this.adId = item._id;
 
       if (accion === 1) {
         this.adAccion = 1;
@@ -580,7 +570,6 @@ export default {
       this.id = "";
       this.idproveedor = "";
       this.tipo_comprobante = "";
-      this.serie_comprobante = "";
       this.num_comprobante = "";
       this.impuesto = 13;
       this.codigo = "";
@@ -602,16 +591,15 @@ export default {
       let me = this;
       axios
         .post(
-          `api/Ingresos/Crear`,
+          `api/Ingresos`,
           {
-            idproveedor: me.idproveedor,
-            idusuario: parseInt(me.$store.state.usuario.idusuario),
+            proveedor: me.idproveedor,
+            usuario: me.$store.state.usuario,
             tipo_comprobante: me.tipo_comprobante,
-            serie_comprobante: me.serie_comprobante,
             num_comprobante: me.num_comprobante,
             impuesto: me.impuesto,
             total: me.total,
-            detalles: me.detalles,
+            detalle_ingreso: me.detalles,
           },
           configuracion
         )
@@ -622,14 +610,13 @@ export default {
         })
         .catch(function(err) {
           console.log({
-            idproveedor: me.idproveedor,
-            idusuario: me.$store.state.usuario.idusuario,
+            proveedor: me.idproveedor,
+            usuario: me.$store.state.usuario,
             tipo_comprobante: me.tipo_comprobante,
-            serie_comprobante: me.serie_comprobante,
             num_comprobante: me.num_comprobante,
             impuesto: me.impuesto,
             total: me.total,
-            detalles: me.detalles,
+            detalle_ingreso: me.detalles,
           });
           console.log(err.message);
         });
