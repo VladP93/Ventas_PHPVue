@@ -112,7 +112,6 @@ export default {
       dialog: false,
       headers: [
         { text: "Nombre", value: "nombre" },
-        { text: "Tipo de persona", value: "tipo_persona" },
         { text: "Tipo de documento", value: "tipo_documento" },
         { text: "Número de documento", value: "num_documento" },
         { text: "Dirección", value: "direccion", sortable: false },
@@ -159,7 +158,7 @@ export default {
       let header = { Authorization: "Bearer " + this.$store.state.token };
       let configuracion = { headers: header };
       axios
-        .get(`api/Personas/ListarClientes`, configuracion)
+        .get(`api/Clientes`, configuracion)
         .then(function(response) {
           me.clientes = response.data;
         })
@@ -169,7 +168,7 @@ export default {
     },
 
     editItem(item) {
-      this.id = item.idpersona;
+      this.id = item._id;
       this.nombre = item.nombre;
       this.tipo_documento = item.tipo_documento;
       this.num_documento = item.num_documento;
@@ -215,10 +214,9 @@ export default {
 
         axios
           .put(
-            "api/Personas/Actualizar",
+            "api/Clientes/" + me.id,
             {
               idpersona: me.id,
-              tipo_persona: "Cliente",
               nombre: me.nombre,
               tipo_documento: me.tipo_documento,
               num_documento: me.num_documento,
@@ -241,9 +239,8 @@ export default {
         let me = this;
         axios
           .post(
-            "api/Personas/Crear",
+            "api/Clientes",
             {
-              tipo_persona: "Cliente",
               nombre: me.nombre,
               tipo_documento: me.tipo_documento,
               num_documento: me.num_documento,
