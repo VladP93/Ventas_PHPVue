@@ -48,7 +48,7 @@
                   <div id="fact">
                     <p>
                       {{ tipo_comprobante }}<br />
-                      {{ serie_comprobante }} - {{ num_comprobante }}<br />
+                      {{ num_comprobante }}<br />
                       {{ fecha_hora }}
                     </p>
                   </div>
@@ -215,13 +215,6 @@
           </v-flex>
           <v-flex xs12 sm4 md4 lg4 xl4>
             <v-text-field
-              v-model="serie_comprobante"
-              label="Serie de comprobante"
-              :disabled="!verDet"
-            ></v-text-field>
-          </v-flex>
-          <v-flex xs12 sm4 md4 lg4 xl4>
-            <v-text-field
               v-model="num_comprobante"
               label="Número de comprobante"
               :disabled="!verDet"
@@ -381,7 +374,6 @@ export default {
         { text: "Usuario", value: "usuario" },
         { text: "Cliente", value: "cliente" },
         { text: "Tipo de comprobante", value: "tipo_comprobante" },
-        { text: "Serie de comprobante", value: "serie_comprobante" },
         {
           text: "Número de comprobante",
           value: "num_comprobante",
@@ -399,7 +391,6 @@ export default {
       clientes: [],
       tipo_comprobante: "",
       comprobantes: ["FACTURA", "TICKET", "BOLETA"],
-      serie_comprobante: "",
       num_comprobante: "",
       impuesto: 13,
       codigo: "",
@@ -488,7 +479,6 @@ export default {
     mostrarComprobante(item) {
       this.limpiar();
       this.tipo_comprobante = item.tipo_comprobante;
-      this.serie_comprobante = item.serie_comprobante;
       this.num_comprobante = item.num_comprobante;
       this.cliente = item.cliente;
       this.num_documento = item.num_documento;
@@ -497,7 +487,7 @@ export default {
       this.email = item.email;
       this.fecha_hora = item.fecha_hora;
       this.impuesto = item.impuesto;
-      this.listarDetalles(item.idventa);
+      this.listarDetalles(item._id);
       this.comprobanteModal = true;
     },
     ocultarComprobante() {
@@ -541,7 +531,7 @@ export default {
       let configuracion = { headers: header };
       let url = ``;
       if (!me.fechaInicio || !me.fechaFin) {
-        url = `api/Ventas/Listar`;
+        url = `api/Ventas`;
       } else {
         url = `api/Ventas/ConsultaFechas/${me.fechaInicio}/${me.fechaFin}`;
       }
@@ -559,7 +549,7 @@ export default {
       let header = { Authorization: "Bearer " + this.$store.state.token };
       let configuracion = { headers: header };
       axios
-        .get(`api/Ventas/ListarDetalles/${id}`, configuracion)
+        .get(`api/Ventas/Detalles/${id}`, configuracion)
         .then(function(response) {
           me.detalles = response.data;
         })
@@ -570,11 +560,10 @@ export default {
     verDetalles(item) {
       this.limpiar();
       this.tipo_comprobante = item.tipo_comprobante;
-      this.serie_comprobante = item.serie_comprobante;
       this.num_comprobante = item.num_comprobante;
       this.idcliente = item.idcliente;
       this.impuesto = item.impuesto;
-      this.listarDetalles(item.idventa);
+      this.listarDetalles(item._id);
       this.verNuevo = true;
       this.verDet = false;
     },
@@ -584,7 +573,7 @@ export default {
       let configuracion = { headers: header };
       var clientesArray = [];
       axios
-        .get(`api/Personas/SelectClientes`, configuracion)
+        .get(`api/Clientes`, configuracion)
         .then(function(response) {
           clientesArray = response.data;
           clientesArray.map(function(pro) {
@@ -608,7 +597,6 @@ export default {
       this.id = "";
       this.idcliente = "";
       this.tipo_comprobante = "";
-      this.serie_comprobante = "";
       this.num_comprobante = "";
       this.impuesto = 13;
       this.codigo = "";

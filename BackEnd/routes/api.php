@@ -43,3 +43,7 @@ Route::post('/Usuarios/Login','App\Http\Controllers\UsuarioController@login');
 Route::put('/Usuarios/Desactivar/{_id}','App\Http\Controllers\UsuarioController@desactivar');
 Route::put('/Usuarios/Activar/{_id}','App\Http\Controllers\UsuarioController@activar');
 Route::resource('/Ventas','App\Http\Controllers\VentaController');
+Route::get('Ventas/Detalles/{_id}','App\Http\Controllers\VentaController@verDetalles');
+Route::get('Ventas/ConsultaFechas/{fecha_inicio}/{fecha_fin}','App\Http\Controllers\VentaController@consultarFecha');
+Route::put('Ventas/Anular/{_id}','App\Http\Controllers\VentaController@anular');
+Route::get('Ventas/Filtrar/{texto}','App\Http\Controllers\VentaController@filtrar');
