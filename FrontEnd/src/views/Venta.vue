@@ -805,6 +805,9 @@ export default {
           me.limpiar();
         })
         .catch(function(err) {
+          if (err.response.status === 409) {
+            alert("*Número de comprobante repetido.");
+          }
           console.log({
             cliente: me.idcliente,
             usuario: me.$store.state.usuario,
