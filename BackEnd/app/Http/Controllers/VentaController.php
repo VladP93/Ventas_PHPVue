@@ -39,26 +39,33 @@ class VentaController extends Controller
         // 'Num_comprobante', 'Fecha_hora', 'Impuesto', 'Total','Estado', 'Detalle_venta'];
         $venta = new Venta;
 
-        $venta->cliente = $request->cliente;
-        $venta->usuario = $request->usuario;
-        $venta->tipo_comprobante = $request->tipo_comprobante;
-        $venta->num_comprobante = $request->num_comprobante;
-        $fecha_hora = Carbon::now();
-        $venta->fecha_hora = $fecha_hora->toDateTimeString();
-        $venta->impuesto = $request->impuesto;
-        $venta->total = number_format($request->total, 2);
-        $venta->estado = 'Aceptado';
-        $venta->detalle_venta = $request->detalle_venta;
+        $preventa = Venta::where('num_comprobante',$request->num_comprobante)->first();
 
-        foreach ($request->detalle_venta as $detalle) {
-            $articulo = Articulo::where('codigo',$detalle['codigo'])->first();
-            $articulo->stock -= $detalle['cantidad'];
-            $articulo->save();
+        if($preventa == null){
+            $venta->cliente = $request->cliente;
+            $venta->usuario = $request->usuario;
+            $venta->tipo_comprobante = $request->tipo_comprobante;
+            $venta->num_comprobante = $request->num_comprobante;
+            $fecha_hora = Carbon::now();
+            $venta->fecha_hora = $fecha_hora->toDateTimeString();
+            $venta->impuesto = $request->impuesto;
+            $venta->total = number_format($request->total, 2);
+            $venta->estado = 'Aceptado';
+            $venta->detalle_venta = $request->detalle_venta;
+    
+            foreach ($request->detalle_venta as $detalle) {
+                $articulo = Articulo::where('codigo',$detalle['codigo'])->first();
+                $articulo->stock -= $detalle['cantidad'];
+                $articulo->save();
+            }
+    
+            $venta->save();
+    
+            return response()->json(['Message'=>'Venta realizada correctamente',$venta],200);
+        }else{
+            abort(409);
         }
 
-        $venta->save();
-
-        return response()->json(['Message'=>'Venta realizada correctamente',$venta],200);
     }
 
     public function anular($_id){
