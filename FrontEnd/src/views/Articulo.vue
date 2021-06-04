@@ -340,8 +340,9 @@ export default {
     cerrarModalActivo() {
       this.adModal = 0;
     },
-
     close() {
+    let me = this;
+    me.limpiar();
       this.dialog = false;
     },
 
