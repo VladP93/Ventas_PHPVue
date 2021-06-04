@@ -40,26 +40,33 @@ class IngresoController extends Controller
 
         $ingreso = new Ingreso;
 
-        $ingreso->proveedor = $request->proveedor;
-        $ingreso->usuario = $request->usuario;
-        $ingreso->tipo_comprobante = $request->tipo_comprobante;
-        $ingreso->num_comprobante = $request->num_comprobante;
-        $fecha_hora = Carbon::now();
-        $ingreso->fecha_hora = $fecha_hora->toDateTimeString();
-        $ingreso->impuesto = $request->impuesto;
-        $ingreso->total = number_format($request->total, 2);
-        $ingreso->estado = 'Aceptado';
-        $ingreso->detalle_ingreso = $request->detalle_ingreso;
+        $preingreso = Ingreso::where('num_comprobante',$request->num_comprobante)->first();
 
-        foreach ($request->detalle_ingreso as $detalle) {
-            $articulo = Articulo::where('codigo',$detalle['codigo'])->first();
-            $articulo->stock += $detalle['cantidad'];
-            $articulo->save();
+        if($preingreso == null){
+            $ingreso->proveedor = $request->proveedor;
+            $ingreso->usuario = $request->usuario;
+            $ingreso->tipo_comprobante = $request->tipo_comprobante;
+            $ingreso->num_comprobante = $request->num_comprobante;
+            $fecha_hora = Carbon::now();
+            $ingreso->fecha_hora = $fecha_hora->toDateTimeString();
+            $ingreso->impuesto = $request->impuesto;
+            $ingreso->total = number_format($request->total, 2);
+            $ingreso->estado = 'Aceptado';
+            $ingreso->detalle_ingreso = $request->detalle_ingreso;
+    
+            foreach ($request->detalle_ingreso as $detalle) {
+                $articulo = Articulo::where('codigo',$detalle['codigo'])->first();
+                $articulo->stock += $detalle['cantidad'];
+                $articulo->save();
+            }
+    
+            $ingreso->save();
+    
+            return response()->json(['Message'=>'Ingreso creado correctamente',$ingreso],200);
+        }else{
+            abort(409);
         }
 
-        $ingreso->save();
-
-        return response()->json(['Message'=>'Ingreso creado correctamente',$ingreso],200);
     }
 
     public function anular($_id){
